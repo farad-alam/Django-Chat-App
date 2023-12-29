@@ -6,19 +6,21 @@ function appendMessage(message, sendByUserId, userId) {
     messageDiv.classList.add('message');
 
     const paragraph = document.createElement('p');
-    const messageText = document.createTextNode(message.message);
+    const messageText = document.createTextNode(message.message_text);
     paragraph.appendChild(messageText);
 
-    // const timeStamp = document.createElement('span');
-    // timeStamp.textContent = ' ' + getMessageTimeStamp(); // Function to get the timestamp
-
-    // paragraph.appendChild(document.createElement('br'));
-    // paragraph.appendChild(timeStamp);
-
+    // Add timestamp
+    const timestampSpan = document.createElement('span');
+    const sendTime = new Date(message.send_time_str);
+    const formattedTime = sendTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    timestampSpan.textContent = formattedTime;
+    paragraph.appendChild(document.createElement('br'));
+    paragraph.appendChild(timestampSpan);
+    
     messageDiv.appendChild(paragraph);
-    console.log(parseInt(sendByUserId), userId)
+    // console.log(parseInt(sendByUserId), userId)
     // Check if the message is sent to the user or sent by the user
-    if (parseInt(sendByUserId) === userId) {
+    if (sendByUserId === userId) {
         messageDiv.classList.add('friend_msg');
     } else {
         messageDiv.classList.add('my_msg');
@@ -76,13 +78,11 @@ document.addEventListener('DOMContentLoaded', function() {
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         console.log(data)
-        console.log(data.length)
-       
 
         if (Array.isArray(data.message)) {
             appendMessages(data.message, data.send_by_user_id, userId);
         } else {
-            appendMessage(data, data.send_by_user_id, userId);
+            appendMessage(data, data.send_by_id, userId);
         }
         
     };

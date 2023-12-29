@@ -7,6 +7,8 @@ from .models import ChatRoom, TextMessages
 from django.shortcuts import get_object_or_404
 from .models import ChatRoom
 from django.db.models import Q
+from django.core.serializers import serialize
+
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -48,8 +50,19 @@ def saving_messages_to_chat_room(chat_room, send_by_user, text_messages):
         message_text = text_messages
     )
     new_text_msg_obj.save()
+    # print(new_text_msg_obj)
 
-    return new_text_msg_obj
+    saved_data = {
+        "id": new_text_msg_obj.id,
+        "users_room_id": new_text_msg_obj.users_room.id,
+        "send_by_id": new_text_msg_obj.send_by.id,
+        "message_text": new_text_msg_obj.message_text,
+        "send_time_str": new_text_msg_obj.send_time_str
+    } 
+    # # Serialize the object
+    # serialized_obj = serialize('json', [new_text_msg_obj])
+
+    return saved_data
 
 
 async def retrive_existing_messages(chat_room_obj):
@@ -135,22 +148,24 @@ class SingleChatConsumer(AsyncWebsocketConsumer):
         #saving message to database
         saved_message = await sync_to_async(saving_messages_to_chat_room)(self.user_chat_room_obj, send_by_user_obj, message)
 
+        # serilized_saved_message = await sync_to_async(list)(saved_message)
+
         # Sent message to users room
         await self.channel_layer.group_send(
             self.users_common_chat_room_name, {
                 "type": "chat.message", 
-                "message": message,
-                "send_by_user_id": self.send_by_user_id,
-                "sent_to_user_id": self.sent_to_user_id
+                "message": saved_message,
                 }
 
         )
 
     # Receive message from room group
     async def chat_message(self, event):
-        data = {"message": event["message"],
-                "send_by_user_id": event["send_by_user_id"],
-                "sent_to_user_id": event["sent_to_user_id"]
+        data = {"id": event["message"]['id'],
+                "users_room_id": event["message"]['users_room_id'],
+                "send_by_id": event["message"]['send_by_id'],
+                "message_text": event["message"]['message_text'],
+                "send_time_str": event["message"]['send_time_str'],
                 }
 
         # Send message to WebSocket
