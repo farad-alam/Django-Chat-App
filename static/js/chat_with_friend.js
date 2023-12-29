@@ -27,6 +27,36 @@ function appendMessage(message, sendByUserId, userId) {
     chatbox.appendChild(messageDiv);
 }
 
+function appendMessages(messages, sendByUserId, userId) {
+    const chatbox = document.querySelector('.chatbox');
+
+    messages.forEach(message => {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+
+        const paragraph = document.createElement('p');
+        const messageText = document.createTextNode(message.message_text);
+        paragraph.appendChild(messageText);
+
+        messageDiv.appendChild(paragraph);
+
+        // Add timestamp
+        const timestampSpan = document.createElement('span');
+        const sendTime = new Date(message.send_time_str);
+        const formattedTime = sendTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        timestampSpan.textContent = formattedTime;
+        paragraph.appendChild(document.createElement('br'));
+        paragraph.appendChild(timestampSpan);
+
+        if (parseInt(message.send_by_id) === userId) {
+            messageDiv.classList.add('friend_msg');
+        } else {
+            messageDiv.classList.add('my_msg');
+        }
+
+        chatbox.appendChild(messageDiv);
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -46,7 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         console.log(data)
-        appendMessage(data, data.send_by_user_id, userId);
+        console.log(data.length)
+       
+
+        if (Array.isArray(data.message)) {
+            appendMessages(data.message, data.send_by_user_id, userId);
+        } else {
+            appendMessage(data, data.send_by_user_id, userId);
+        }
         
     };
 

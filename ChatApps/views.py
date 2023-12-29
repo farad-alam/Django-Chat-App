@@ -4,9 +4,9 @@ from CustomUser.models import CustomUser
 # Create your views here.
 
 def home(request):
-    user_list = CustomUser.objects.all()
+    user_list = CustomUser.objects.all().exclude(id=request.user.id)
     context={
-        "user_list":user_list
+        "user_list":user_list,
     }
 
     return render(request,'chattemp/landing_page.html',context)
@@ -23,6 +23,6 @@ def room(request, room_name):
 
 def single_chat(request, user_id):
     chat_with_user = CustomUser.objects.get(id=user_id)
-    user_list = CustomUser.objects.all()
+    user_list = CustomUser.objects.all().exclude(id=request.user.id)
     context= {"user_id": user_id,"chat_with_user":chat_with_user,"user_list":user_list}
     return render(request, "chattemp/chat_with_friend.html", context)
