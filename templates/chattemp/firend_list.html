@@ -1,0 +1,92 @@
+<div class="leftSide">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="userimg">
+            <img src="https://i.pravatar.cc/150?img={{request.user.id}}" alt="" class="cover"> 
+         
+        </div>
+        <div class="listHead">
+            <h4>{{request.user.first_name}}</h4>
+        </div>  
+        <ul class="nav_icons">
+            <li><ion-icon name="scan-circle-outline"></ion-icon></li>
+            <li><ion-icon name="chatbox"></ion-icon></li>
+            <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+        </ul>
+    </div>
+
+    <!-- Search Chat -->
+    <div class="search_chat">
+        <div>
+            <input type="text" placeholder="Search or start new chat">
+            <ion-icon name="search-outline"></ion-icon> 
+        </div>                
+    </div>
+
+    <!-- CHAT LIST -->
+    <div class="chatlist">
+
+        
+        {% for user in user_list %}
+            {% comment %} <div class="block active"> {% endcomment %}
+            <a href="{% url 'single_chat_page' user.id %}"></a>
+            <div class="block">
+                <div class="imgBox">
+                    <a href="{% url 'single_chat_page' user.id %}">
+                        <img src="https://i.pravatar.cc/150?img={{user.id}}" class="cover" alt="">
+                    </a>
+                </div>
+                <div class="details">                    
+                    <div class="listHead">
+
+                        <a href="{% url 'single_chat_page' user.id %}">
+                            <h4>{{user.first_name}} {{user.last_name}}</h4>
+                        </a>
+
+                        <p class="time">10:56</p>
+                    </div>
+                    <div class="message_p">
+                        <p>How are you doing?- {{user.id}}</p>
+                    </div>
+                </div>
+            </div>
+            
+        {% endfor %}
+            
+        
+
+        {% comment %} <div class="block unread">
+            <div class="imgBox">
+                <img src="https://i.pravatar.cc/150?img=4" class="cover" alt="">
+            </div>
+            <div class="details">
+                <div class="listHead">
+                    <h4>Andre</h4>
+                    <p class="time">12:34</p>
+                </div>
+                <div class="message_p">
+                    <p>I love your youtube videos!</p>
+                    <b>1</b>
+                </div>
+            </div>
+        </div>
+
+        <div class="block unread">
+            <div class="imgBox">
+                <img src="https://i.pravatar.cc/150?img=5" class="cover" alt="">
+            </div>
+            <div class="details">
+                <div class="listHead">
+                    <h4>Olivia</h4>
+                    <p class="time">Yesterday</p>
+                </div>
+                <div class="message_p">
+                    <p>I just subscribed to your channel</p>
+                    <b>2</b>
+                </div>
+            </div>
+        </div> {% endcomment %}
+        
+    </div>
+</div>

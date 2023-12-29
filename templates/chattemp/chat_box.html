@@ -1,0 +1,45 @@
+
+<div class="rightSide">
+    <div class="header">
+        <div class="imgText">
+            <div class="userimg">
+                <img src="https://i.pravatar.cc/150?img={{chat_with_user.id}}" alt="" class="cover">
+            </div>
+            <h4>{{chat_with_user.first_name}} {{chat_with_user.last_name}} <br><span>online</span></h4>
+        </div>
+        <ul class="nav_icons">
+            <li><ion-icon name="search-outline"></ion-icon></li>
+            <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+        </ul>
+    </div>
+
+    <!-- CHAT-BOX -->
+    <div class="chatbox">
+        <div class="message my_msg">
+            <p>Hi <br><span>12:18</span></p>
+        </div>
+        <div class="message friend_msg">
+            <p>Hey <br><span>12:18</span></p>
+        </div>
+        <div class="message my_msg">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br><span>12:15</span></p>
+        </div>
+        <div class="message friend_msg">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br><span>12:15</span></p>
+        </div>
+    </div>
+    
+    <!-- CHAT INPUT -->
+    <div class="chat_input">
+        <ion-icon name="happy-outline"></ion-icon>
+        <!-- <ion-icon name="happy-outline"></ion-icon> -->
+        <input id="chat-message-input" type="text" size="" placeholder="Type a message">
+        <ion-icon name="mic"></ion-icon>
+        {% comment %} <input id="chat-message-submit" type="button" value="Send"> {% endcomment %}
+        <p id="chat-message-submit" ><i class="fa fa-send-o" style="font-size:36px;color:blue"></i></p>
+        {% comment %} <textarea id="chat-log" cols="100" rows="20"></textarea><br> {% endcomment %}
+        {% comment %} <input id="chat-message-input" type="text" size="" placeholder="Type a message"> {% endcomment %}
+        {% comment %} <input id="chat-message-submit" type="button" value="Send"> {% endcomment %}
+    </div>
+    {{ user_id|json_script:"user_id" }}
+</div>

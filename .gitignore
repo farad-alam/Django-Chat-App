@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django development settings
+*.log
+*.pot
+*.pyc
+
+# Ignore user-uploaded media files (if not using a CDN)
+/media/
+/staticfiles/
+/templates/chatapps/
+/templates/chattemp/test.html
+
+# Ignore environment-specific files
+.env
+*.env
+
+# Ignore generated files
+*.bak
+*.swp
+*~
+
+# Ignore Python virtual environment
+venv/
+env/
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore local configuration
+local_settings.py

@@ -1,0 +1,14 @@
+{% extends "chattemp/base.html" %}
+{% load static %}
+
+{% block static_files_js %}
+    <script src="{% static 'js/chat_with_friend.js' %}"></script>
+{% endblock static_files_js %}
+    
+
+{% block body_content %}
+
+{% include 'chattemp/firend_list.html' %}
+{% include 'chattemp/chat_box.html' %}
+
+{% endblock body_content %}
