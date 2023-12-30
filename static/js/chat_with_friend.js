@@ -16,7 +16,7 @@ function appendMessage(message, sendByUserId, userId) {
     timestampSpan.textContent = formattedTime;
     paragraph.appendChild(document.createElement('br'));
     paragraph.appendChild(timestampSpan);
-    
+
     messageDiv.appendChild(paragraph);
     // console.log(parseInt(sendByUserId), userId)
     // Check if the message is sent to the user or sent by the user
@@ -28,6 +28,7 @@ function appendMessage(message, sendByUserId, userId) {
 
     chatbox.appendChild(messageDiv);
 }
+
 
 function appendMessages(messages, sendByUserId, userId) {
     const chatbox = document.querySelector('.chatbox');
@@ -83,6 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
             appendMessages(data.message, data.send_by_user_id, userId);
         } else {
             appendMessage(data, data.send_by_id, userId);
+            let lastMessages =  document.getElementById('last_messages-'+ userId);
+            lastMessages.innerText = data.message_text;
+            console.log(data.message_text, '#last_messages-'+ userId)
         }
         
     };

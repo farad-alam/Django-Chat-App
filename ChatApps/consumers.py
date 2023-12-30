@@ -93,7 +93,7 @@ class SingleChatConsumer(AsyncWebsocketConsumer):
         second_user = await sync_to_async(get_object_or_404)(CustomUser, id=self.sent_to_user_id)
 
         # Check if a ChatRoom already exists where these two users are present
-        existing_chat_room = await sync_to_async( ChatRoom.objects.filter)(
+        existing_chat_room = await sync_to_async(ChatRoom.objects.filter)(
             Q(first_user=first_user, second_user=second_user) |
             Q(first_user=second_user, second_user=first_user)
         )
@@ -159,7 +159,7 @@ class SingleChatConsumer(AsyncWebsocketConsumer):
 
         )
 
-    # Receive message from room group
+    # Send Received message to chat room 
     async def chat_message(self, event):
         data = {"id": event["message"]['id'],
                 "users_room_id": event["message"]['users_room_id'],
@@ -171,6 +171,7 @@ class SingleChatConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps(data))
 
+    # sending existing msges to users room 
     async def send_existing_message_to_websocket(self, event):
         data = {
             "message": event["message"],

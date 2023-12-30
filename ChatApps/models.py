@@ -32,12 +32,10 @@ class TextMessages(models.Model):
 
     def __str__(self):
         return f"{self.users_room.room_name}--{self.send_by}--{self.message_text[:20]}"
+    
 
 
 
 
-class TextMessage(models.Model):
-    sent_by = models.ForeignKey("CustomUser.CustomUser", on_delete=models.DO_NOTHING, related_name="message_get_from")
-    sent_to = models.ForeignKey("CustomUser.CustomUser", on_delete=models.DO_NOTHING, related_name="message_sent_to")
-    message_text = models.CharField(max_length=500)
-    time_stamp = models.DateTimeField(auto_now_add=True)
+
+
